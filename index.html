@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101112" />
+    <meta name="description" content="Bonk — a one-thumb platform fighter. Try the movement lab." />
+    <link rel="icon" type="image/svg+xml" href="/bonk-pwa/bonk.svg" />
+    <link rel="manifest" href="/bonk-pwa/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/bonk-pwa/icons/bonk-192.png" />
+    <title>Bonk — mechanics lab</title>
+    <script>
+      // Keep this outside the module bundle so a failed bundle can show retry UI.
+      window.addEventListener('error', function (event) {
+        if (!(event.target instanceof HTMLScriptElement)) return;
+        function showLoadError() {
+          document.getElementById('fallback-message').textContent = 'The game files could not load. Check your connection to the server and retry.';
+          document.getElementById('fallback').hidden = false;
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showLoadError, { once: true });
+        else showLoadError();
+      }, true);
+    </script>
+    <script type="module" crossorigin src="/bonk-pwa/assets/index-D_uSFqyW.js"></script>
+    <link rel="stylesheet" crossorigin href="/bonk-pwa/assets/index-DuFxtJJR.css">
+  </head>
+  <body>
+    <div id="app">
+      <div id="arena" aria-label="Game arena. Drag to steer; use Jump, Attack, Special, and Guard buttons. Guard holds a ground shield and taps an air dodge." role="application"></div>
+      <div id="readout" aria-label="Live performance and fighter state">
+        <div id="fps">-- FPS</div>
+        <div id="session-status">Loading…</div>
+        <div id="fighter-status">P1</div>
+        <div class="resources"><span id="jump-resource">jump 1</span> · <span id="special-resource">up 1</span> · <span id="air-dodge-resource">air dodge 1</span></div>
+        <div id="input-status">input: idle</div>
+        <div id="dummy-status" hidden>Dummy 0%</div>
+      </div>
+      <div class="toolbar" aria-label="Game controls">
+        <button id="reset" title="Reset fighter (R)" disabled>Reset</button>
+        <button id="pause" aria-label="Pause game" disabled>Pause</button>
+        <button id="help" aria-label="Show controls" disabled>Controls</button>
+        <button id="diagnostics-toggle" aria-pressed="false" title="Detailed timings and collision outline" disabled>Details</button>
+        <button id="install" hidden>Install Bonk</button>
+      </div>
+      <section id="update-banner" class="update-banner" hidden role="status" aria-live="polite" aria-atomic="true">
+        <span id="update-message">New version available.</span>
+        <button id="update" type="button">Update</button>
+        <button id="update-later" type="button">Later</button>
+      </section>
+      <aside id="diagnostics" hidden aria-label="Input and performance diagnostics"><pre id="diagnostic-text"></pre></aside>
+      <div class="build-note">Mechanics lab · training dummy available in Controls</div>
+      <section id="overlay" class="overlay" hidden aria-label="Controls">
+        <div class="panel">
+          <h1>Controls</h1>
+          <p id="auto-l-cancel-help">Auto L-cancel halves aerial attack landing lag, rounded down. Autocancel landings keep their normal recovery.</p>
+          <button id="auto-l-cancel" aria-pressed="false" aria-describedby="auto-l-cancel-help">Auto L-cancel off</button>
+          <p id="training-dummy-help">Drop in a passive purple opponent to test damage and knockback. Reset clears its damage; knocked-out dummies return automatically.</p>
+          <button id="training-dummy" aria-pressed="false" aria-describedby="training-dummy-help">Training dummy off</button>
+          <p id="guard-help">Guard: hold the Guard button on the ground for a shield. Tap Guard in the air to spend your air dodge; it returns when you land.</p>
+          <p>Tilt gently to walk. Flick sideways to dash, then keep holding to run. Quick opposite flicks chain tight turns. Hold down to crouch on the ground; swipe down while descending to fast-fall.</p>
+          <p>Tap Jump for a short hop; hold for a full jump. Attack at neutral for a jab on the ground or a neutral aerial. Hold a direction for a tilt or directional aerial; attack shortly after a dash flick or while running for a dash attack. Flick a direction and press Attack together for an uncharged smash. Hold Special to charge Shield Breaker; release to swing. Hold up and press Special for Dolphin Slash. After Dolphin Slash, you must land before acting again. Up does not jump.</p>
+          <p>One-thumb option:</p>
+          <dl>
+            <dt>Drag left / right</dt><dd>Tilt to walk; flick to dash, keep holding to run.</dd>
+            <dt>Flick up</dt><dd>Jump. Retouch to air-jump.</dd>
+            <dt>Flick down</dt><dd>Hold to crouch / swipe to fast-fall.</dd>
+            <dt>Tap</dt><dd>Sword attack.</dd>
+            <dt>Hold, then flick</dt><dd>Up: Dolphin Slash. Other directions: uncharged Shield Breaker.</dd>
+            <dt>Hold, then release</dt><dd>Cancel special.</dd>
+          </dl>
+          <p>A/D or left/right: dash · Shift + direction: walk<br>Space: tap/hold jump<br>J: attack · K: Guard / Air Dodge · Down: crouch / fast-fall<br>L: hold/release Shield Breaker · Up + L: Dolphin Slash · R: reset · Esc: pause</p>
+          <button id="sound" aria-pressed="false">Sound off</button>
+          <button id="start">Resume</button>
+        </div>
+      </section>
+      <section id="pause-overlay" class="overlay" hidden aria-label="Game paused">
+        <div class="panel"><h1>Paused</h1><p id="pause-reason"></p><button id="resume">Resume</button><button id="show-controls">Controls</button></div>
+      </section>
+      <section id="fallback" class="overlay" hidden role="alert"><div class="panel"><h1>Unable to start</h1><p id="fallback-message">WebGL is unavailable. Enable hardware acceleration or try another browser.</p><button onclick="location.reload()">Retry</button></div></section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "Bonk",
+  "short_name": "Bonk",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#101112",
+  "background_color": "#101112",
+  "icons": [
+    {
+      "src": "./icons/bonk-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/bonk-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
